@@ -1,5 +1,7 @@
 package main;
 
+import entitiy.Player;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,7 +10,7 @@ public class windowSettings extends JPanel implements Runnable
     final int originalTileSize = 16;    //16x16 tiles
     final int scale = 4;    //16 pixel kucuk olacagi icin herseyi carpacagimiz katsayi
 
-    final int tileSize = scale * originalTileSize;  //64x64 tiles
+    public final int tileSize = scale * originalTileSize;  //64x64 tiles
     final int maxScreenCol = 16;    //kolon sayiis
     final int maxScreenRow = 12;    // satir sayisi
     final int screenWidth = maxScreenCol*tileSize;  //16x64 pixels
@@ -21,6 +23,7 @@ public class windowSettings extends JPanel implements Runnable
     int playerY = 100;
     int playerSpeed = 5;
     int FPS = 60;
+    Player player = new Player(this,keyH);
 
     public windowSettings()
     {
@@ -69,30 +72,16 @@ public class windowSettings extends JPanel implements Runnable
 
     public void update()
     {
-        if(keyH.isUp)
-        {
-            playerY -= playerSpeed;
-        }
-        else if(keyH.isDown)
-        {
-            playerY += playerSpeed;
-        }
-        else if(keyH.isRight)
-        {
-            playerX += playerSpeed;
-        }
-        else if(keyH.isLeft)
-        {
-            playerX -= playerSpeed;
-        }
+        player.Update();
     }
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);    //guzel bir arkaplan ayarliyor
 
         Graphics2D g2 = (Graphics2D)g;//graphics i graphics2d ye cevirme
-        g2.setColor(Color.lightGray);//renk
-        g2.fillRect(playerX,playerY,tileSize,tileSize);//rectangle olusturur (konum,konum,boyut,boyut)
+
+        player.Draw(g2);
+
         g2.dispose();//salmak
     }
 }
